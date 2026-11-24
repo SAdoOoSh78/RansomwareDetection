@@ -1,0 +1,5 @@
+# Ransomware Early Warning System - Python dependencies
+# Install with:  pip install -r requirements.txt
+
+Flask==3.0.3        # web dashboard
+watchdog==4.0.1     # file-system monitoring
