@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ransomware Early Warning System</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      margin: 0; background: #0f1720; color: #e6edf3;
+    }
+    header {
+      padding: 18px 24px; background: #11212e;
+      border-bottom: 1px solid #22323f;
+    }
+    header h1 { margin: 0; font-size: 20px; }
+    header p { margin: 4px 0 0; color: #90a4b4; font-size: 13px; }
+    main { padding: 24px; max-width: 900px; margin: 0 auto; }
+    .cards { display: flex; gap: 16px; flex-wrap: wrap; }
+    .card {
+      background: #16242f; border: 1px solid #22323f; border-radius: 10px;
+      padding: 16px 20px; flex: 1; min-width: 180px;
+    }
+    .card .big { font-size: 32px; font-weight: 700; }
+    .card .label { color: #90a4b4; font-size: 13px; }
+    .status-ok { color: #2ecc71; }
+    .status-alert { color: #ff5c5c; }
+    h2 { margin: 28px 0 10px; font-size: 15px; color: #90a4b4;
+         text-transform: uppercase; letter-spacing: .5px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #22323f; }
+    th { color: #90a4b4; font-size: 12px; text-transform: uppercase; }
+    .empty { color: #6b7d8c; font-style: italic; padding: 12px 0; }
+    .badge { padding: 2px 8px; border-radius: 10px; font-size: 12px; background: #22323f; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛡️ Ransomware Early Warning System</h1>
+    <p>Watching for abnormal file-change activity. This is a warning system, not protection.</p>
+  </header>
+
+  <main>
+    <div class="cards">
+      <div class="card">
+        <div class="big" id="changes">{{ status.changes_in_window }}</div>
+        <div class="label">changes in last {{ status.window_seconds }}s</div>
+      </div>
+      <div class="card">
+        <div class="big">{{ status.threshold }}</div>
+        <div class="label">alert threshold</div>
+      </div>
+      <div class="card">
+        <div class="big" id="state">
+          {% if alerts %}<span class="status-alert">● Alert</span>
+          {% else %}<span class="status-ok">● Normal</span>{% endif %}
+        </div>
+        <div class="label">current state</div>
+      </div>
+    </div>
+
+    <h2>Alert history</h2>
+    <table id="alerts">
+      <thead><tr><th>Time</th><th>Reason</th><th>Changes</th></tr></thead>
+      <tbody>
+        {% for a in alerts %}
+        <tr><td>{{ a.time }}</td><td>{{ a.reason }}</td><td>{{ a.change_count }}</td></tr>
+        {% else %}
+        <tr><td colspan="3" class="empty">No alerts yet. Run tools/fake_ransomware.py to test.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Recent file activity</h2>
+    <table id="recent">
+      <thead><tr><th>Action</th><th>File</th></tr></thead>
+      <tbody>
+        {% for e in recent %}
+        <tr><td><span class="badge">{{ e.action }}</span></td><td>{{ e.name }}</td></tr>
+        {% else %}
+        <tr><td colspan="2" class="empty">No activity yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Auto-refresh the live data every 2 seconds.
+    async function refresh() {
+      try {
+        const r = await fetch("/api/status");
+        const d = await r.json();
+        document.getElementById("changes").textContent = d.status.changes_in_window;
+        document.getElementById("state").innerHTML = d.alerts.length
+          ? '<span class="status-alert">● Alert</span>'
+          : '<span class="status-ok">● Normal</span>';
+      } catch (e) { /* ignore, try again next tick */ }
+    }
+    setInterval(refresh, 2000);
+  </script>
+</body>
+</html>
