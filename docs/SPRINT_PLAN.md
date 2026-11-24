@@ -68,4 +68,6 @@ Fill in the real dates and names as a team.
 | Detect bad extensions | Saeed | ☐ |
 | Reduce false alarms | Saeed | ☐ |
 | Settings page / chart | Oche | ☐ |
+| Send the new file name and extension when a file is renamed | Fady | ☐ |
+| Ignore temporary and system files | Fady | ☐ |
 | Final integration + final demo | All | ☐ |
