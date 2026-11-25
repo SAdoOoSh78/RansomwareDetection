@@ -23,12 +23,12 @@ Blocking or removing ransomware, restoring files, whole-computer or multi-PC mon
 
 ## Team & roles
 
-| Area | Owner | Responsibility |
+| Area |  | Responsibility |
 |------|-------|----------------|
-| `monitoring/` | **Fady** | Watch the folder, detect modify/delete/rename, ignore temp files, build the fake-ransomware test script |
-| `detection/` | **Saeed** | Count file changes per time window + the rule that decides "suspicious"; bad-extension detection; reduce false alarms |
-| `dashboard/` | **Oche** | Flask web dashboard: status, events, history, settings |
-| `alerts/` | **Ammar** | Alert system + logging: save alerts with timestamps, keep history, connect to the website |
+| `monitoring/` | **** | Watch the folder, detect modify/delete/rename, ignore temp files, build the fake-ransomware test script |
+| `detection/` | **** | Count file changes per time window + the rule that decides "suspicious"; bad-extension detection; reduce false alarms |
+| `dashboard/` | **** | Flask web dashboard: status, events, history, settings |
+| `alerts/` | **** | Alert system + logging: save alerts with timestamps, keep history, connect to the website |
 
 *Product owner / assessor: Gayatri. Methodology: Scrum, two sprints.*
 
