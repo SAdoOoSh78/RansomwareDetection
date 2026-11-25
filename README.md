@@ -59,7 +59,7 @@ RansomwareDetection/
     ├── SPRINT_PLAN.md       # MoSCoW, user stories, sprint goals
     └── DEFINITION_OF_DONE.md
 ```
-
+1
 The files contain **working stubs** that already fit together, so the app runs from day one. Each owner fills in and improves their own part.
 
 ---
